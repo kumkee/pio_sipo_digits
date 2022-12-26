@@ -14,7 +14,7 @@ const unsigned delay_ms = 1000;
 void run_thr_segments(void);
 uint8_t char_map(char);
 void display_bin(uint8_t bin, uint8_t digit_index = 0);
-void run_thr_digits(uint8_t=0);
+void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 
 void setup() {
@@ -27,9 +27,7 @@ void setup() {
   }
 }
 
-void loop() {
-  display_digits();
-}
+void loop() { display_digits(); }
 
 void display_digits(void) {
   for (uint8_t i = 0; i < 4; i++) {
