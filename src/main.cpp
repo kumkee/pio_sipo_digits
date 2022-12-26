@@ -1,3 +1,4 @@
+#include "esp32-hal-gpio.h"
 #include <Arduino.h>
 
 /*
@@ -15,30 +16,49 @@ by Tom Igoe
 */
 // Pin connected to latch pin (ST_CP) of 74HC595
 
-const int latchPin = 33;
+const uint8_t latchPin = 33;
 // Pin connected to clock pin (SH_CP) of 74HC595
-const int clockPin = 26;
+const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
-const int dataPin = 14;
+const uint8_t dataPin = 14;
+
+const uint8_t digits[] = {10, 18, 19, 21};
+
+void run_thr_segments(void);
 
 void setup() {
   // set pins to output so you can control the shift register
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
+  for (uint8_t d : digits) {
+    pinMode(d, OUTPUT);
+  }
 }
+
 void loop() {
+  for (uint8_t d : digits) {
+    for (uint8_t b : digits) {
+      digitalWrite(b, HIGH);
+    }
+    digitalWrite(d, LOW);
+    run_thr_segments();
+  }
+}
+
+void run_thr_segments(void) {
   // count from 0 to 255 and display the number
   // on the LEDs
-  for (int numberToDisplay = 0; numberToDisplay < 256; numberToDisplay++) {
+  for (uint8_t numberToDisplay = 1; numberToDisplay > 0;
+       numberToDisplay = numberToDisplay << 1) {
     // take the latchPin low so
     // the LEDs don't change while you're sending in bits:
     digitalWrite(latchPin, LOW);
     // shift out the bits:
-    shiftOut(dataPin, clockPin, MSBFIRST, ~numberToDisplay);
+    shiftOut(dataPin, clockPin, MSBFIRST, numberToDisplay);
     // take the latch pin high so the LEDs will light up:
     digitalWrite(latchPin, HIGH);
     // pause before next value:
-    delay(500);
+    delay(200);
   }
 }
