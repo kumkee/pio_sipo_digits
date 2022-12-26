@@ -1,5 +1,3 @@
-#include "HardwareSerial.h"
-#include "esp32-hal.h"
 #include <Arduino.h>
 
 /*
@@ -37,7 +35,7 @@ void loop() {
     // the LEDs don't change while you're sending in bits:
     digitalWrite(latchPin, LOW);
     // shift out the bits:
-    shiftOut(dataPin, clockPin, MSBFIRST, numberToDisplay);
+    shiftOut(dataPin, clockPin, MSBFIRST, ~numberToDisplay);
     // take the latch pin high so the LEDs will light up:
     digitalWrite(latchPin, HIGH);
     // pause before next value:
