@@ -13,47 +13,77 @@ const uint8_t digits[] = {10, 18, 19, 21};
 void run_thr_segments(void);
 
 uint8_t char_map(char c) {
-  /*
-  case '0: return 0b11111100}//0
-  case '1: return 0b01100000}//1
-  case '2: return 0b11011010}//2
-  case '3: return 0b11110010}//3
-  case '4: return 0b01100110}//4
-  case '5: return 0b10110110}//5
-  case '6: return 0b10111110}//6
-  case '7: return 0b11100000}//7
-  case '8: return 0b11111110}//8
-  case '9: return 0b11110110}//9
-  case 'a: return 0b11101110}//A/10
-  case 'b: return 0b00111110}//b/11
-  case 'c: return 0b10011100}//C/12
-  case 'd: return 0b01111010}//d/13
-  case 'e: return 0b10011110}//E/14
-  case 'f: return 0b10001110}//F/15
-  case 'g: return 0b10111100}//G/16
-  case 'h: return 0b01101110}//H/17
-  case 'i: return 0b00001100}//I/18
-  case 'j: return 0b01111000}//J/19
-  case 'l: return 0b00011100}//L/20
-  case 'n: return 0b00101010}//n/21
-  case 'o: return 0b00111010}//o/22
-  case 'p: return 0b11001110}//P/23
-  case 'q: return 0b11100110}//q/24
-  case 'r: return 0b00001010}//r/25
-  case 's: return 0b10110110}//S/26   looks like number 5
-  case 't: return 0b00011110}//t/27
-  case 'u: return 0b01111100}//U/28
-  case 'y: return 0b01110110}//y/29
-  case '-: return 0b00000010}//-/30
-  case '.: return 0b00000001}//./31
-  case ']: return 0b11110000}//]/32
-  case '[: return 0b10011100}//[/33
-  case '_: return 0b00010000}//_/34
-   */
   switch (c) {
   case '0':
-    return 0b11111100;
-
+    return 0b11111100; // 0
+  case '1':
+    return 0b01100000; // 1
+  case '2':
+    return 0b11011010; // 2
+  case '3':
+    return 0b11110010; // 3
+  case '4':
+    return 0b01100110; // 4
+  case '5':
+    return 0b10110110; // 5
+  case '6':
+    return 0b10111110; // 6
+  case '7':
+    return 0b11100000; // 7
+  case '8':
+    return 0b11111110; // 8
+  case '9':
+    return 0b11110110; // 9
+  case 'a':
+    return 0b11101110; // A/10
+  case 'b':
+    return 0b00111110; // b/11
+  case 'c':
+    return 0b10011100; // C/12
+  case 'd':
+    return 0b01111010; // d/13
+  case 'e':
+    return 0b10011110; // E/14
+  case 'f':
+    return 0b10001110; // F/15
+  case 'g':
+    return 0b10111100; // G/16
+  case 'h':
+    return 0b01101110; // H/17
+  case 'i':
+    return 0b00001100; // I/18
+  case 'j':
+    return 0b01111000; // J/19
+  case 'l':
+    return 0b00011100; // L/20
+  case 'n':
+    return 0b00101010; // n/21
+  case 'o':
+    return 0b00111010; // o/22
+  case 'p':
+    return 0b11001110; // P/23
+  case 'q':
+    return 0b11100110; // q/24
+  case 'r':
+    return 0b00001010; // r/25
+  case 's':
+    return 0b10110110; // S/26   looks like number 5
+  case 't':
+    return 0b00011110; // t/27
+  case 'u':
+    return 0b01111100; // U/28
+  case 'y':
+    return 0b01110110; // y/29
+  case '-':
+    return 0b00000010; //-/30
+  case '.':
+    return 0b00000001; //./31
+  case ']':
+    return 0b11110000; //]/32
+  case '[':
+    return 0b10011100; //[/33
+  case '_':
+    return 0b00010000; //_/34
   default:
     return 0;
   }
