@@ -1,5 +1,6 @@
 #include "esp32-hal-gpio.h"
 #include <Arduino.h>
+#include <cstdint>
 
 // Pin connected to latch pin (ST_CP) of 74HC595
 const uint8_t latchPin = 33;
@@ -12,8 +13,8 @@ const unsigned delay_ms = 1000;
 
 void run_thr_segments(void);
 uint8_t char_map(char);
-void display_bin(uint8_t);
-void run_thr_digits(void);
+void display_bin(uint8_t, uint8_t = 0);
+void run_thr_digits(uint8_t=0);
 
 void setup() {
   // set pins to output so you can control the shift register
@@ -26,18 +27,14 @@ void setup() {
 }
 
 void loop() {
-  for (uint8_t d : digits) {
-    for (uint8_t b : digits) {
-      digitalWrite(b, HIGH);
-    }
-    digitalWrite(d, LOW);
-    run_thr_digits();
+  for (uint8_t i : {0, 1, 2, 3}) {
+    run_thr_digits(i);
   }
 }
 
-void run_thr_digits(void) {
+void run_thr_digits(uint8_t digit_index) {
   for (char c = '0'; c <= '9'; c++) {
-    display_bin(char_map(c));
+    display_bin(char_map(c), digit_index);
     delay(delay_ms);
   }
 }
@@ -52,7 +49,11 @@ void run_thr_segments(void) {
   }
 }
 
-void display_bin(uint8_t bin) {
+void display_bin(uint8_t bin, uint8_t digit_index) {
+  for (uint8_t b : digits) {
+    digitalWrite(b, HIGH);
+  }
+  digitalWrite(digits[digit_index], LOW);
   // take the latchPin low so
   // the LEDs don't change while you're sending in bits:
   digitalWrite(latchPin, LOW);
