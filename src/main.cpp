@@ -7,7 +7,7 @@ const uint8_t latchPin = 33;
 const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
-const uint8_t digits[] = {10, 18, 19, 21};
+const uint8_t digits[] = {21, 19, 18, 10};
 const unsigned delay_ms = 1000;
 
 void run_thr_segments(void);
