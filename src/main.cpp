@@ -14,6 +14,7 @@ void run_thr_segments(void);
 uint8_t char_map(char);
 void display_bin(uint8_t);
 void run_thr_digits(void);
+uint8_t reverse(uint8_t);
 
 void setup() {
   // set pins to output so you can control the shift register
@@ -37,7 +38,7 @@ void loop() {
 
 void run_thr_digits(void) {
   for (char c = '0'; c <= '9'; c++) {
-    display_bin(char_map(c));
+    display_bin(reverse(char_map(c)));
     delay(delay_ms);
   }
 }
@@ -138,4 +139,11 @@ uint8_t char_map(char c) {
   default:
     return 0;
   }
+}
+
+uint8_t reverse(uint8_t b) {
+   b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+   b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+   b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+   return b;
 }
