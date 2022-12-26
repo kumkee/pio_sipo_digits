@@ -7,10 +7,61 @@ const uint8_t latchPin = 33;
 const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
-
 const uint8_t digits[] = {10, 18, 19, 21};
 
 void run_thr_segments(void);
+uint8_t char_map(char);
+void display_bin(uint8_t);
+void run_thr_digits(void);
+
+void setup() {
+  // set pins to output so you can control the shift register
+  pinMode(latchPin, OUTPUT);
+  pinMode(clockPin, OUTPUT);
+  pinMode(dataPin, OUTPUT);
+  for (uint8_t d : digits) {
+    pinMode(d, OUTPUT);
+  }
+}
+
+
+void loop() {
+  for (uint8_t d : digits) {
+    for (uint8_t b : digits) {
+      digitalWrite(b, HIGH);
+    }
+    digitalWrite(d, LOW);
+    run_thr_segments();
+  }
+}
+
+void run_thr_digits(void) {
+  for (char c = '0'; c <= '9'; c++) {
+    display_bin(char_map(c));
+    delay(200);
+  }
+}
+
+void run_thr_segments(void) {
+  // count from 0 to 255 and display the number
+  // on the LEDs
+  for (uint8_t numberToDisplay = 1; numberToDisplay > 0;
+       numberToDisplay = numberToDisplay << 1) {
+    display_bin(numberToDisplay);
+    delay(200);
+  }
+}
+
+void display_bin(uint8_t bin) {
+  // take the latchPin low so
+  // the LEDs don't change while you're sending in bits:
+  digitalWrite(latchPin, LOW);
+  // shift out the bits:
+  shiftOut(dataPin, clockPin, MSBFIRST, bin);
+  // take the latch pin high so the LEDs will light up:
+  digitalWrite(latchPin, HIGH);
+  // pause before next value:
+}
 
 uint8_t char_map(char c) {
   switch (c) {
@@ -86,42 +137,5 @@ uint8_t char_map(char c) {
     return 0b00010000; //_/34
   default:
     return 0;
-  }
-}
-
-void setup() {
-  // set pins to output so you can control the shift register
-  pinMode(latchPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
-  pinMode(dataPin, OUTPUT);
-  for (uint8_t d : digits) {
-    pinMode(d, OUTPUT);
-  }
-}
-
-void loop() {
-  for (uint8_t d : digits) {
-    for (uint8_t b : digits) {
-      digitalWrite(b, HIGH);
-    }
-    digitalWrite(d, LOW);
-    run_thr_segments();
-  }
-}
-
-void run_thr_segments(void) {
-  // count from 0 to 255 and display the number
-  // on the LEDs
-  for (uint8_t numberToDisplay = 1; numberToDisplay > 0;
-       numberToDisplay = numberToDisplay << 1) {
-    // take the latchPin low so
-    // the LEDs don't change while you're sending in bits:
-    digitalWrite(latchPin, LOW);
-    // shift out the bits:
-    shiftOut(dataPin, clockPin, MSBFIRST, numberToDisplay);
-    // take the latch pin high so the LEDs will light up:
-    digitalWrite(latchPin, HIGH);
-    // pause before next value:
-    delay(200);
   }
 }
