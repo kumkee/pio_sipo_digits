@@ -34,7 +34,7 @@ void loop() {
 void display_digits(void) {
   for (uint8_t i = 0; i < 4; i++) {
     display_bin(char_map('0' + i), i);
-    delayMicroseconds(500);
+    delayMicroseconds(1024);
   }
 }
 
