@@ -16,6 +16,7 @@ uint8_t char_map(char);
 void display_bin(uint8_t bin, uint8_t digit_index = 0);
 void run_thr_digits(uint8_t = 0);
 void display_digits(void);
+void display_string(char *str);
 
 void setup() {
   // set pins to output so you can control the shift register
@@ -29,8 +30,21 @@ void setup() {
 
 // void loop() { display_digits(); }
 void loop() {
-  for (uint8_t i = 0; i < 4; i++) {
-    run_thr_segments(i);
+  char str[] = "1024";
+  display_string(str);
+}
+
+void display_string(char *str) {
+  uint8_t n = strlen(str);
+  char buf[5];
+  if (n > 4) {
+    strcpy(buf, "    ");
+  } else {
+    strcpy(buf, str);
+  }
+  for (uint8_t i = 0; i < n; i++) {
+    display_bin(char_map(buf[n - 1 - i]), i);
+    delayMicroseconds(1024);
   }
 }
 
