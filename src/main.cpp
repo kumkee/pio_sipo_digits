@@ -32,11 +32,13 @@ void setup() {
 // void loop() { display_digits(); }
 void loop() {
   char str[] = "0000";
-  unsigned long ms = millis();
   for (unsigned i = 0; i < 10000; i++) {
+    unsigned long ms = millis();
     sprintf(str, "%d", i);
+    while (millis() < ms + delay_ms) {
+      display_string(str);
+    }
   }
-  display_string(str);
 }
 
 void display_string(char *str) {
