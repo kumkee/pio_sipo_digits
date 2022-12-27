@@ -14,7 +14,8 @@ const unsigned delay_us = 1024;
 
 void run_thr_segments(uint8_t digit_index = 0);
 uint8_t char_map(char);
-void display_bin(uint8_t bin, uint8_t digit_index = 0);
+void display_char(uint8_t bin, uint8_t digit_index = 0);
+void display_char(char chr, uint8_t digit_index = 0);
 void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 void display_string(char *str);
@@ -50,21 +51,21 @@ void display_string(char *str) {
     strcpy(buf, str);
   }
   for (uint8_t i = 0; i < n; i++) {
-    display_bin(char_map(buf[n - 1 - i]), i);
+    display_char(buf[n - 1 - i], i);
     delayMicroseconds(delay_us);
   }
 }
 
 void display_digits(void) {
   for (uint8_t i = 0; i < 4; i++) {
-    display_bin(char_map('0' + i), i);
+    display_char((char)('0' + i), i);
     delayMicroseconds(delay_us);
   }
 }
 
 void run_thr_digits(uint8_t digit_index) {
   for (char c = '0'; c <= '9'; c++) {
-    display_bin(char_map(c), digit_index);
+    display_char(c, digit_index);
     delay(delay_ms);
   }
 }
@@ -74,12 +75,16 @@ void run_thr_segments(uint8_t digit_index) {
   // on the LEDs
   for (uint8_t numberToDisplay = 1; numberToDisplay > 0;
        numberToDisplay = numberToDisplay << 1) {
-    display_bin(numberToDisplay, digit_index);
+    display_char(numberToDisplay, digit_index);
     delay(delay_ms);
   }
 }
 
-void display_bin(uint8_t bin, uint8_t digit_index) {
+void display_char(char chr, uint8_t digit_index) {
+  display_char(char_map(chr), digit_index);
+}
+
+void display_char(uint8_t bin, uint8_t digit_index) {
   for (uint8_t b : digits) {
     digitalWrite(b, HIGH);
   }
