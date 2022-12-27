@@ -14,7 +14,9 @@ ifndef SERIAL_DEV
   endif
 endif
 
-all:
+all: compile upload
+
+compile:
 	pio run
 
 upload:

@@ -9,9 +9,9 @@ const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
 const uint8_t digits[] = {21, 19, 18, 10};
-const unsigned delay_ms = 1000;
+const unsigned delay_ms = 256;
 
-void run_thr_segments(void);
+void run_thr_segments(uint8_t digit_index = 0);
 uint8_t char_map(char);
 void display_bin(uint8_t bin, uint8_t digit_index = 0);
 void run_thr_digits(uint8_t = 0);
@@ -27,7 +27,12 @@ void setup() {
   }
 }
 
-void loop() { display_digits(); }
+// void loop() { display_digits(); }
+void loop() {
+  for (uint8_t i = 0; i < 4; i++) {
+    run_thr_segments(i);
+  }
+}
 
 void display_digits(void) {
   for (uint8_t i = 0; i < 4; i++) {
@@ -43,12 +48,12 @@ void run_thr_digits(uint8_t digit_index) {
   }
 }
 
-void run_thr_segments(void) {
+void run_thr_segments(uint8_t digit_index) {
   // count from 0 to 255 and display the number
   // on the LEDs
   for (uint8_t numberToDisplay = 1; numberToDisplay > 0;
        numberToDisplay = numberToDisplay << 1) {
-    display_bin(numberToDisplay);
+    display_bin(numberToDisplay, digit_index);
     delay(delay_ms);
   }
 }
