@@ -66,6 +66,7 @@ void display_string(char *str) {
 }
 
 void display_digits(void) {
+  // For debugging
   for (uint8_t i = 0; i < 4; i++) {
     display_char((char)('0' + i), i);
     delayMicroseconds(multiplexed_delay_us);
@@ -73,6 +74,7 @@ void display_digits(void) {
 }
 
 void run_thr_digits(uint8_t digit_index) {
+  // For debugging
   for (char c = '0'; c <= '9'; c++) {
     display_char(c, digit_index);
     delay(delay_ms);
@@ -80,6 +82,7 @@ void run_thr_digits(uint8_t digit_index) {
 }
 
 void run_thr_segments(uint8_t digit_index) {
+  // For debugging
   // count from 0 to 255 and display the number
   // on the LEDs
   for (uint8_t numberToDisplay = 1; numberToDisplay > 0;
