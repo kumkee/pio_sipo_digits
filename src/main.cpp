@@ -10,7 +10,7 @@ const uint8_t clockPin = 26;
 const uint8_t dataPin = 14;
 const uint8_t digits[] = {21, 19, 18, 10};
 const unsigned delay_ms = 512;
-const unsigned delay_us = 1024;
+const unsigned multiplexed_delay_us = 1024;
 
 void run_thr_segments(uint8_t digit_index = 0);
 uint8_t char_map(char);
@@ -61,14 +61,14 @@ void display_string(char *str) {
   }
   for (uint8_t i = 0; i < n; i++) {
     display_char(buf[n - 1 - i], i);
-    delayMicroseconds(delay_us);
+    delayMicroseconds(multiplexed_delay_us);
   }
 }
 
 void display_digits(void) {
   for (uint8_t i = 0; i < 4; i++) {
     display_char((char)('0' + i), i);
-    delayMicroseconds(delay_us);
+    delayMicroseconds(multiplexed_delay_us);
   }
 }
 
