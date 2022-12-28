@@ -57,8 +57,14 @@ void num_to_str(char *str, int num) {
 uint8_t num_to_str(char *str, float num) {
   char buf[10];
   sprintf(buf, "%.4f", num);
-  char *dp_index = strchr(buf, '.');
-  return 0;
+  char *dp = strchr(buf, '.');
+  uint8_t dp_index = dp - buf;
+  if (!dp || dp_index > 5) {
+    strcpy(str, "____");
+    return 0;
+  } else {
+    return 1;
+  }
 }
 
 void display_string(char *str, uint8_t dec_pnts) {
