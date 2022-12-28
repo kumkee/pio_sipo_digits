@@ -53,6 +53,11 @@ void num_to_str(char *str, int num) {
   }
 }
 
+void num_to_str(char *str, float num) {
+  char buf[5], tmp[10];
+  sprintf(tmp, "%.4f", num);
+}
+
 void display_string(char *str, uint8_t dec_pnts) {
   uint8_t n = strlen(str);
   char buf[5];
