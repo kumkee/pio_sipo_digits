@@ -12,14 +12,16 @@ const uint8_t digits[] = {21, 19, 18, 10};
 const unsigned delay_ms = 512;
 const unsigned multiplexed_delay_us = 1024;
 
+const uint8_t dec_pnt_positions[] = {1, 2, 4, 8};
+
 void run_thr_segments(uint8_t digit_index = 0);
 uint8_t char_map(char);
 void display_char(uint8_t bin, uint8_t digit_index = 0);
-void display_char(char chr, uint8_t digit_index = 0);
+void display_char(char chr, uint8_t digit_index = 0, uint8_t dec_pnts = 0);
 void run_thr_digits(uint8_t = 0);
 void display_digits(void);
-void display_string(char *str);
-void num_to_str(char* str, int num);
+void display_string(char *str, uint8_t dec_pnts = 0);
+void num_to_str(char *str, int num);
 
 void setup() {
   // set pins to output so you can control the shift register
@@ -34,16 +36,16 @@ void setup() {
 // void loop() { display_digits(); }
 void loop() {
   char str[] = "0000";
-  for (int i = -999; i < 10000; i++) {
+  for (int i = -1024; i < 10000; i++) {
     unsigned long ms = millis();
     num_to_str(str, i);
     while (millis() < ms + delay_ms) {
-      display_string(str);
+      display_string(str, i % 16);
     }
   }
 }
 
-void num_to_str(char* str, int num) {
+void num_to_str(char *str, int num) {
   if (num < -999 || num > 9999) {
     strcpy(str, "....");
   } else {
@@ -51,7 +53,7 @@ void num_to_str(char* str, int num) {
   }
 }
 
-void display_string(char *str) {
+void display_string(char *str, uint8_t dec_pnts) {
   uint8_t n = strlen(str);
   char buf[5];
   if (n > 4) {
@@ -60,7 +62,7 @@ void display_string(char *str) {
     strcpy(buf, str);
   }
   for (uint8_t i = 0; i < n; i++) {
-    display_char(buf[n - 1 - i], i);
+    display_char(buf[n - 1 - i], i, dec_pnts);
     delayMicroseconds(multiplexed_delay_us);
   }
 }
@@ -92,8 +94,11 @@ void run_thr_segments(uint8_t digit_index) {
   }
 }
 
-void display_char(char chr, uint8_t digit_index) {
-  display_char(char_map(chr), digit_index);
+void display_char(char chr, uint8_t digit_index, uint8_t dec_pnts) {
+  display_char(
+      (uint8_t)(char_map(chr) +
+                (dec_pnts & dec_pnt_positions[digit_index] ? 128 : 0)),
+      digit_index);
 }
 
 void display_char(uint8_t bin, uint8_t digit_index) {
