@@ -33,7 +33,7 @@ void setup() {
 // void loop() { display_digits(); }
 void loop() {
   char str[] = "0000";
-  for (unsigned i = 0; i < 10000; i++) {
+  for (int i = -999; i < 10000; i++) {
     unsigned long ms = millis();
     sprintf(str, "%d", i);
     while (millis() < ms + delay_ms) {
