@@ -9,7 +9,7 @@ const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
 const uint8_t digits[] = {21, 19, 18, 10};
-const unsigned delay_ms = 256;
+const unsigned delay_ms = 512;
 const unsigned delay_us = 1024;
 
 void run_thr_segments(uint8_t digit_index = 0);
@@ -19,6 +19,7 @@ void display_char(char chr, uint8_t digit_index = 0);
 void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 void display_string(char *str);
+void num_to_str(char* str, int num);
 
 void setup() {
   // set pins to output so you can control the shift register
@@ -35,10 +36,18 @@ void loop() {
   char str[] = "0000";
   for (int i = -999; i < 10000; i++) {
     unsigned long ms = millis();
-    sprintf(str, "%d", i);
+    num_to_str(str, i);
     while (millis() < ms + delay_ms) {
       display_string(str);
     }
+  }
+}
+
+void num_to_str(char* str, int num) {
+  if (num < -999 || num > 9999) {
+    strcpy(str, "....");
+  } else {
+    sprintf(str, "%d", num);
   }
 }
 
