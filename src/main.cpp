@@ -1,6 +1,7 @@
 #include "esp32-hal-gpio.h"
 #include <Arduino.h>
 #include <cstdint>
+#include <cstring>
 
 // Pin connected to latch pin (ST_CP) of 74HC595
 const uint8_t latchPin = 33;
@@ -53,9 +54,11 @@ void num_to_str(char *str, int num) {
   }
 }
 
-void num_to_str(char *str, float num) {
-  char buf[5], tmp[10];
-  sprintf(tmp, "%.4f", num);
+uint8_t num_to_str(char *str, float num) {
+  char buf[10];
+  sprintf(buf, "%.4f", num);
+  char *dp_index = strchr(buf, '.');
+  return 0;
 }
 
 void display_string(char *str, uint8_t dec_pnts) {
@@ -100,10 +103,9 @@ void run_thr_segments(uint8_t digit_index) {
 }
 
 void display_char(char chr, uint8_t digit_index, uint8_t dec_pnts) {
-  display_char(
-      (uint8_t)(char_map(chr) +
-                (dec_pnts & dec_pnt_positions[digit_index] ? 128 : 0)),
-      digit_index);
+  display_char((uint8_t)(char_map(chr) +
+                         (dec_pnts & dec_pnt_positions[digit_index] ? 128 : 0)),
+               digit_index);
 }
 
 void display_char(uint8_t bin, uint8_t digit_index) {
