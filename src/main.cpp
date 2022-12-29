@@ -26,11 +26,6 @@ void display_digits(void);
 void display_string(char *str, uint8_t dec_pnts = 0);
 void num_to_str(char *str, int num);
 
-struct DottedString {
-  char str[NUM_DIGITS + 1];
-  uint8_t dots; // a 4-bit unsigned int representing dot positions
-};
-
 void setup() {
   // set pins to output so you can control the shift register
   pinMode(latchPin, OUTPUT);
@@ -50,6 +45,19 @@ void loop() {
     while (millis() < ms + delay_ms) {
       display_string(str, i % 16);
     }
+  }
+}
+
+uint8_t sperate_str_dots(char *str, char *pure_str, uint8_t dec_pnts) {
+  // pure_str is without dots
+  char *buf = strchr(str, (int)'.');
+  if (buf) {
+    uint8_t dot_ind = buf - str;
+    memcpy(pure_str, str, dot_ind);
+    strcpy(pure_str + dot_ind, buf + 1);
+    return sperate_str_dots(str, pure_str, dec_pnts | dot_ind);
+  } else {
+    return (NUM_DIGITS - strlen(pure_str)) << dec_pnts;
   }
 }
 
