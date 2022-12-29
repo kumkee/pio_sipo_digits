@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <cstring>
 
+#define NUM_DIGITS 4
+
 // Pin connected to latch pin (ST_CP) of 74HC595
 const uint8_t latchPin = 33;
 // Pin connected to clock pin (SH_CP) of 74HC595
@@ -23,6 +25,11 @@ void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 void display_string(char *str, uint8_t dec_pnts = 0);
 void num_to_str(char *str, int num);
+
+struct DottedString {
+  char str[NUM_DIGITS + 1];
+  uint8_t dots; // a 4-bit unsigned int representing dot positions
+};
 
 void setup() {
   // set pins to output so you can control the shift register
