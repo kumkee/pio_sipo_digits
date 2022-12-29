@@ -27,6 +27,7 @@ void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 void display_string(char *str, uint8_t dec_pnts = 0);
 void num_to_str(char *str, int num);
+uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
 
 void setup() {
   // set pins to output so you can control the shift register
@@ -75,15 +76,15 @@ void num_to_str(char *str, int num) {
 }
 
 uint8_t num_to_str(char *str, float num) {
-  char buf[10];
-  sprintf(buf, "%.4f", num);
-  char *dp = strchr(buf, '.');
-  uint8_t dp_index = dp - buf;
-  if (!dp || dp_index > 5) {
-    strcpy(str, "____");
+  if (num < -999.5 || num > 9999.5) {
+    strcpy(str, "....");
     return 0;
   } else {
-    return 1;
+    sprintf(str, "%.4f", num);
+    if (strlen(str) > NUM_DIGITS + 1) {
+      str[NUM_DIGITS + 2] = '\0';
+    }
+    return separate_str_dots(str);
   }
 }
 
@@ -130,7 +131,7 @@ void run_thr_segments(uint8_t digit_index) {
 
 void display_char(char chr, uint8_t digit_index, uint8_t dec_pnts) {
   display_char((uint8_t)(char_map(chr) +
-                         (dec_pnts & dec_pnt_positions[digit_index] ? 128 : 0)),
+                         (dec_pnts & dec_pnt_positions(digit_index) ? 128 : 0)),
                digit_index);
 }
 
