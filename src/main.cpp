@@ -15,7 +15,9 @@ const uint8_t digits[] = {21, 19, 18, 10};
 const unsigned delay_ms = 512;
 const unsigned multiplexed_delay_us = 1024;
 
-const uint8_t dec_pnt_positions[] = {1, 2, 4, 8};
+uint8_t dec_pnt_positions(uint8_t i) {
+  return (i < NUM_DIGITS) ? (1 << i) : 0;
+};
 
 void run_thr_segments(uint8_t digit_index = 0);
 uint8_t char_map(char);
@@ -48,16 +50,19 @@ void loop() {
   }
 }
 
-uint8_t separate_str_dots(char *str, char *pure_str, uint8_t dec_pnts) {
+uint8_t separate_str_dots(char *str, uint8_t dec_pnts) {
   // pure_str is without dots
   char *buf = strchr(str, (int)'.');
   if (buf) {
+    char pure_str[2 * NUM_DIGITS + 1];
     uint8_t dot_ind = buf - str;
     memcpy(pure_str, str, dot_ind);
     strcpy(pure_str + dot_ind, buf + 1);
-    return separate_str_dots(str, pure_str, dec_pnts | dot_ind);
+    strcpy(str, pure_str);
+    return separate_str_dots(str, dec_pnts | dec_pnt_positions(dot_ind - 1));
+    // return separate_str_dots(str, dec_pnts | dec_pnt_pos[dot_ind - 1]);
   } else {
-    return (NUM_DIGITS - strlen(pure_str)) << dec_pnts;
+    return dec_pnts << (NUM_DIGITS - strlen(str));
   }
 }
 
