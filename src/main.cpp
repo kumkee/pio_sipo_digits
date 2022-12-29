@@ -48,14 +48,14 @@ void loop() {
   }
 }
 
-uint8_t sperate_str_dots(char *str, char *pure_str, uint8_t dec_pnts) {
+uint8_t separate_str_dots(char *str, char *pure_str, uint8_t dec_pnts) {
   // pure_str is without dots
   char *buf = strchr(str, (int)'.');
   if (buf) {
     uint8_t dot_ind = buf - str;
     memcpy(pure_str, str, dot_ind);
     strcpy(pure_str + dot_ind, buf + 1);
-    return sperate_str_dots(str, pure_str, dec_pnts | dot_ind);
+    return separate_str_dots(str, pure_str, dec_pnts | dot_ind);
   } else {
     return (NUM_DIGITS - strlen(pure_str)) << dec_pnts;
   }
