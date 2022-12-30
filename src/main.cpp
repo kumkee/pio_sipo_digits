@@ -28,7 +28,7 @@ void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 void display_string(char *str, uint8_t dec_pnts = 0);
 uint8_t num_to_str(char *str, int num);
-uint8_t num_to_str(char *str, float num, uint8_t num_decimals = 4);
+uint8_t num_to_str(char *str, float num, uint8_t num_decimals = NUM_DIGITS);
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
 
 void setup() {
