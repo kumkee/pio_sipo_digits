@@ -26,11 +26,13 @@ void display_char(char chr, uint8_t digit_index = 0, uint8_t dec_pnts = 0);
 void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 void display_string(char *str, uint8_t dec_pnts = 0);
-void num_to_str(char *str, int num);
+uint8_t num_to_str(char *str, int num);
+uint8_t num_to_str(char *str, float num);
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
 
 void setup() {
   // set pins to output so you can control the shift register
+  Serial.begin(115200);
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
@@ -41,9 +43,10 @@ void setup() {
 
 // void loop() { display_digits(); }
 void loop() {
-  char str[] = "0000";
+  char str[2 * NUM_DIGITS + 1];
   for (int i = -1024; i < 10000; i++) {
     unsigned long ms = millis();
+    float f = 1.23;
     num_to_str(str, i);
     while (millis() < ms + delay_ms) {
       display_string(str, i % 16);
@@ -67,12 +70,13 @@ uint8_t separate_str_dots(char *str, uint8_t dec_pnts) {
   }
 }
 
-void num_to_str(char *str, int num) {
+uint8_t num_to_str(char *str, int num) {
   if (num < -999 || num > 9999) {
     strcpy(str, "....");
   } else {
     sprintf(str, "%d", num);
   }
+  return 0;
 }
 
 uint8_t num_to_str(char *str, float num) {
