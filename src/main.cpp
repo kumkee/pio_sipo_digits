@@ -47,11 +47,10 @@ void loop() {
   char str[2 * NUM_DIGITS + 1];
   for (int i = -24; i < 10000; i++) {
     unsigned long ms = millis();
-    float f = 1.23;
-    uint8_t dp = num_to_str(str, i);
+    uint8_t dp = num_to_str(str, (float)(i / 10.0));
     Serial.printf("\r                  \r%s\t%d", str, dp);
     while (millis() < ms + delay_ms) {
-      display_string(str, i % 16);
+      display_string(str, dp);
     }
   }
 }
