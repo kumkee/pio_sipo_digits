@@ -45,13 +45,13 @@ void setup() {
 // void loop() { display_digits(); }
 void loop() {
   char str[2 * NUM_DIGITS + 1];
-  for (int i = -1024; i < 10000; i++) {
+  for (int i = -24; i < 10000; i++) {
     unsigned long ms = millis();
     float f = 1.23;
-    uint8_t dp = num_to_str(str, f);
+    uint8_t dp = num_to_str(str, i);
     Serial.printf("\r                  \r%s\t%d", str, dp);
     while (millis() < ms + delay_ms) {
-      display_string(str, dp);
+      display_string(str, i % 16);
     }
   }
 }
@@ -103,7 +103,7 @@ void display_string(char *str, uint8_t dec_pnts) {
     strcpy(buf, str);
   }
   for (uint8_t i = 0; i < n; i++) {
-    display_char(buf[i], i, dec_pnts);
+    display_char(buf[i], i + NUM_DIGITS - n, dec_pnts);
     delayMicroseconds(multiplexed_delay_us);
   }
 }
