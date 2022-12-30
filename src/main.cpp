@@ -48,13 +48,11 @@ void loop() {
   for (int i = -1024; i < 10000; i++) {
     unsigned long ms = millis();
     float f = 1.23;
-    uint8_t dp = num_to_str(str, i);
+    uint8_t dp = num_to_str(str, f);
+    Serial.printf("\r                  \r%s\t%d", str, dp);
     while (millis() < ms + delay_ms) {
-      display_string(str, i % 16);
+      display_string(str, dp);
     }
-    char s[] = "1.234";
-    dp = separate_str_dots(s, 0);
-    Serial.printf("\r                  \r%s\t%d", s, dp);
   }
 }
 
