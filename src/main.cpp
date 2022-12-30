@@ -49,10 +49,12 @@ void loop() {
     unsigned long ms = millis();
     float f = 1.23;
     uint8_t dp = num_to_str(str, i);
-    Serial.printf("\r                  \r%s", str);
     while (millis() < ms + delay_ms) {
       display_string(str, i % 16);
     }
+    char s[] = "1.234";
+    dp = separate_str_dots(s, 0);
+    Serial.printf("\r                  \r%s\t%d", s, dp);
   }
 }
 
@@ -88,7 +90,7 @@ uint8_t num_to_str(char *str, float num) {
   } else {
     sprintf(str, "%.4f", num);
     if (strlen(str) > NUM_DIGITS + 1) {
-      str[NUM_DIGITS + 2] = '\0';
+      str[NUM_DIGITS + 1] = '\0';
     }
     return separate_str_dots(str);
   }
