@@ -28,7 +28,7 @@ void run_thr_digits(uint8_t = 0);
 void display_digits(void);
 void display_string(char *str, uint8_t dec_pnts = 0);
 uint8_t num_to_str(char *str, int num);
-uint8_t num_to_str(char *str, float num);
+uint8_t num_to_str(char *str, float num, uint8_t num_decimals = 4);
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
 
 void setup() {
@@ -47,7 +47,7 @@ void loop() {
   char str[2 * NUM_DIGITS + 1];
   for (int i = -24; i < 10000; i++) {
     unsigned long ms = millis();
-    uint8_t dp = num_to_str(str, (float)(i / 10.0));
+    uint8_t dp = num_to_str(str, (float)(i / 10.0), 1);
     Serial.printf("\r                  \r%s\t%d", str, dp);
     while (millis() < ms + delay_ms) {
       display_string(str, dp);
@@ -80,12 +80,12 @@ uint8_t num_to_str(char *str, int num) {
   return 0;
 }
 
-uint8_t num_to_str(char *str, float num) {
+uint8_t num_to_str(char *str, float num, uint8_t num_decimals) {
   if (num < -999.5 || num > 9999.5) {
     strcpy(str, "....");
     return 0;
   } else {
-    sprintf(str, "%.4f", num);
+    sprintf(str, "%.*f", num_decimals, num);
     if (strlen(str) > NUM_DIGITS + 1) {
       str[NUM_DIGITS + 1] = '\0';
     }
