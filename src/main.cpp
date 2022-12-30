@@ -13,7 +13,7 @@ const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
 const uint8_t digitPins[] = {10, 18, 19, 21};
-const unsigned delay_ms = 512;
+const unsigned delay_ms = 100;
 const unsigned multiplexed_delay_us = 1024;
 
 uint8_t dec_pnt_positions(uint8_t i) {
@@ -45,9 +45,15 @@ void setup() {
 // void loop() { display_digits(); }
 void loop() {
   char str[2 * NUM_DIGITS + 1];
-  for (int i = -24; i < 10000; i++) {
+  bool flag_float = false;
+  for (int i = 0; i < 10000; i++) {
     unsigned long ms = millis();
-    uint8_t dp = num_to_str(str, (float)(i / 10.0), 1);
+    uint8_t dp;
+    if (i % 5 == 0) {
+      flag_float = !flag_float;
+    }
+    dp =
+        flag_float ? num_to_str(str, (float)(i / 10.0), 1) : num_to_str(str, i);
     Serial.printf("\r                  \r%s\t%d", str, dp);
     while (millis() < ms + delay_ms) {
       display_string(str, dp);
