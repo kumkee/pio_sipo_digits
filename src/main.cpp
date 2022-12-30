@@ -12,7 +12,7 @@ const uint8_t latchPin = 33;
 const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
-const uint8_t digits[] = {21, 19, 18, 10};
+const uint8_t digitPins[] = {21, 19, 18, 10};
 const unsigned delay_ms = 512;
 const unsigned multiplexed_delay_us = 1024;
 
@@ -37,7 +37,7 @@ void setup() {
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
-  for (uint8_t d : digits) {
+  for (uint8_t d : digitPins) {
     pinMode(d, OUTPUT);
   }
 }
@@ -142,10 +142,10 @@ void display_char(char chr, uint8_t digit_index, uint8_t dec_pnts) {
 }
 
 void display_char(uint8_t bin, uint8_t digit_index) {
-  for (uint8_t b : digits) {
+  for (uint8_t b : digitPins) {
     digitalWrite(b, HIGH);
   }
-  digitalWrite(digits[digit_index], LOW);
+  digitalWrite(digitPins[digit_index], LOW);
   // take the latchPin low so
   // the LEDs don't change while you're sending in bits:
   digitalWrite(latchPin, LOW);
