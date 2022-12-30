@@ -96,8 +96,8 @@ uint8_t num_to_str(char *str, float num) {
 
 void display_string(char *str, uint8_t dec_pnts) {
   uint8_t n = strlen(str);
-  char buf[5];
-  if (n > 4) {
+  char buf[NUM_DIGITS + 1];
+  if (n > NUM_DIGITS) {
     strcpy(buf, "____");
   } else {
     strcpy(buf, str);
@@ -110,7 +110,7 @@ void display_string(char *str, uint8_t dec_pnts) {
 
 void display_digits(void) {
   // For debugging
-  for (uint8_t i = 0; i < 4; i++) {
+  for (uint8_t i = 0; i < NUM_DIGITS; i++) {
     display_char((char)('0' + i), i);
     delayMicroseconds(multiplexed_delay_us);
   }
