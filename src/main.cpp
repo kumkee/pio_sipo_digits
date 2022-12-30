@@ -12,7 +12,7 @@ const uint8_t latchPin = 33;
 const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
-const uint8_t digitPins[] = {21, 19, 18, 10};
+const uint8_t digitPins[] = {10, 18, 19, 21};
 const unsigned delay_ms = 512;
 const unsigned multiplexed_delay_us = 1024;
 
@@ -103,7 +103,7 @@ void display_string(char *str, uint8_t dec_pnts) {
     strcpy(buf, str);
   }
   for (uint8_t i = 0; i < n; i++) {
-    display_char(buf[n - 1 - i], i, dec_pnts);
+    display_char(buf[i], i, dec_pnts);
     delayMicroseconds(multiplexed_delay_us);
   }
 }
