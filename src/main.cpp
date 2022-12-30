@@ -1,3 +1,4 @@
+#include "HardwareSerial.h"
 #include "esp32-hal-gpio.h"
 #include <Arduino.h>
 #include <cstdint>
@@ -47,7 +48,8 @@ void loop() {
   for (int i = -1024; i < 10000; i++) {
     unsigned long ms = millis();
     float f = 1.23;
-    num_to_str(str, i);
+    uint8_t dp = num_to_str(str, i);
+    Serial.printf("\r                  \r%s", str);
     while (millis() < ms + delay_ms) {
       display_string(str, i % 16);
     }
