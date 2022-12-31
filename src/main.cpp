@@ -1,8 +1,4 @@
-#include "HardwareSerial.h"
-#include "esp32-hal-gpio.h"
-#include <Arduino.h>
-#include <cstdint>
-#include <cstring>
+#include "header.h"
 
 #define NUM_DIGITS 4
 
