@@ -26,11 +26,12 @@ uint8_t dec_pnt_positions(uint8_t i) {
 };
 
 void run_thr_segments(uint8_t digit_index = 0);
-void display_char(uint8_t bin, uint8_t digit_index = 0);
-void display_char(char chr, uint8_t digit_index = 0, uint8_t dec_pnts = 0);
+void display_char(DigitDisplay dd, uint8_t bin, uint8_t digit_index = 0);
+void display_char(DigitDisplay dd, char chr, uint8_t digit_index = 0,
+                  uint8_t dec_pnts = 0);
 void run_thr_digits(uint8_t = 0);
-void display_digits(void);
-void display_string(char *str, uint8_t dec_pnts = 0);
+void display_digits(DigitDisplay dd);
+void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts = 0);
 uint8_t num_to_str(char *str, int num);
 uint8_t num_to_str(char *str, float num, uint8_t num_decimals = NUM_DIGITS);
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
@@ -46,13 +47,15 @@ void init_digit_display(DigitDisplay d) {
   declare_outputs<NUM_DIGITS>(d.digit_pins);
 }
 
+DigitDisplay dd;
+
 void setup() {
   // set pins to output so you can control the shift register
   Serial.begin(115200);
-  DigitDisplay dd = {NUM_DIGITS,
-                     {LATCH_PIN, CLOCK_PIN, DATA_PIN},
-                     DIGIT_PINS,
-                     MULTIPLEXED_DELAY_US};
+  dd = {NUM_DIGITS,
+        {LATCH_PIN, CLOCK_PIN, DATA_PIN},
+        DIGIT_PINS,
+        MULTIPLEXED_DELAY_US};
   init_digit_display(dd);
 }
 
@@ -70,7 +73,7 @@ void loop() {
         flag_float ? num_to_str(str, (float)(i / 10.0), 1) : num_to_str(str, i);
     Serial.printf("\r                  \r%s\t%d", str, dp);
     while (millis() < ms + delay_ms) {
-      display_string(str, dp);
+      display_string(dd, str, dp);
     }
   }
 }
@@ -113,64 +116,67 @@ uint8_t num_to_str(char *str, float num, uint8_t num_decimals) {
   }
 }
 
-void display_string(char *str, uint8_t dec_pnts) {
+void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts) {
   uint8_t n = strlen(str);
-  char buf[NUM_DIGITS + 1];
-  if (n > NUM_DIGITS) {
+  char buf[dd.num_digits + 1];
+  if (n > dd.num_digits) {
     strcpy(buf, "____");
   } else {
     strcpy(buf, str);
   }
   for (uint8_t i = 0; i < n; i++) {
-    display_char(buf[i], i + NUM_DIGITS - n, dec_pnts);
-    delayMicroseconds(MULTIPLEXED_DELAY_US);
+    display_char(dd, buf[i], i + dd.num_digits - n, dec_pnts);
+    delayMicroseconds(dd.multiplexed_delay_us);
   }
 }
 
-void display_digits(void) {
+void display_digits(DigitDisplay dd) {
   // For debugging
-  for (uint8_t i = 0; i < NUM_DIGITS; i++) {
-    display_char((char)('0' + i), i);
-    delayMicroseconds(MULTIPLEXED_DELAY_US);
+  for (uint8_t i = 0; i < dd.num_digits; i++) {
+    display_char(dd, (char)('0' + i), i);
+    delayMicroseconds(dd.multiplexed_delay_us);
   }
 }
 
-void run_thr_digits(uint8_t digit_index) {
+void run_thr_digits(DigitDisplay dd, uint8_t digit_index) {
   // For debugging
   for (char c = '0'; c <= '9'; c++) {
-    display_char(c, digit_index);
+    display_char(dd, c, digit_index);
     delay(delay_ms);
   }
 }
 
-void run_thr_segments(uint8_t digit_index) {
+void run_thr_segments(DigitDisplay dd, uint8_t digit_index) {
   // For debugging
   // count from 0 to 255 and display the number
   // on the LEDs
   for (uint8_t numberToDisplay = 1; numberToDisplay > 0;
        numberToDisplay = numberToDisplay << 1) {
-    display_char(numberToDisplay, digit_index);
+    display_char(dd, numberToDisplay, digit_index);
     delay(delay_ms);
   }
 }
 
-void display_char(char chr, uint8_t digit_index, uint8_t dec_pnts) {
-  display_char((uint8_t)(char_map(chr) +
+void display_char(DigitDisplay dd, char chr, uint8_t digit_index,
+                  uint8_t dec_pnts) {
+  display_char(dd,
+               (uint8_t)(char_map(chr) +
                          (dec_pnts & dec_pnt_positions(digit_index) ? 128 : 0)),
                digit_index);
 }
 
-void display_char(uint8_t bin, uint8_t digit_index) {
-  for (uint8_t b : DIGIT_PINS) {
+void display_char(DigitDisplay dd, uint8_t bin, uint8_t digit_index) {
+  for (uint8_t b : dd.digit_pins) {
     digitalWrite(b, HIGH);
   }
-  digitalWrite(DIGIT_PINS[digit_index], LOW);
+  digitalWrite(dd.digit_pins[digit_index], LOW);
   // take the latchPin low so
   // the LEDs don't change while you're sending in bits:
-  digitalWrite(LATCH_PIN, LOW);
+  digitalWrite(dd.latch_clock_data_pins[0], LOW);
   // shift out the bits:
-  shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, bin);
+  shiftOut(dd.latch_clock_data_pins[2], dd.latch_clock_data_pins[1], MSBFIRST,
+           bin);
   // take the latch pin high so the LEDs will light up:
-  digitalWrite(LATCH_PIN, HIGH);
+  digitalWrite(dd.latch_clock_data_pins[0], HIGH);
   // pause before next value:
 }
