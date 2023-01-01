@@ -5,19 +5,17 @@
 #define NUM_DIGITS 4
 
 // Pin connected to latch pin (ST_CP) of 74HC595
-const uint8_t latchPin = 33;
+const uint8_t LATCH_PIN = 33;
 // Pin connected to clock pin (SH_CP) of 74HC595
-const uint8_t clockPin = 26;
+const uint8_t CLOCK_PIN = 26;
 ////Pin connected to Data in (DS) of 74HC595
-const uint8_t dataPin = 14;
-const std::array<uint8_t, NUM_DIGITS> digitPins = {10, 18, 19, 21};
+const uint8_t DATA_PIN = 14;
+const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {10, 18, 19, 21};
 const unsigned delay_ms = 100;
 const unsigned multiplexed_delay_us = 1024;
 
 struct DigitDisplay {
-  uint8_t latch_pin;
-  uint8_t clock_pin;
-  uint8_t data_pin;
+  std::array<uint8_t, 3> latch_clock_data_pins;
   std::array<uint8_t, NUM_DIGITS> digit_pins;
 };
 
@@ -35,16 +33,23 @@ uint8_t num_to_str(char *str, int num);
 uint8_t num_to_str(char *str, float num, uint8_t num_decimals = NUM_DIGITS);
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
 
+template <std::size_t N>
+void declare_outputs(std::array<uint8_t, N> pins) {
+  for (uint8_t p : pins) {
+    pinMode(p, OUTPUT);
+  }
+}
+
+void init_digit_display(DigitDisplay d) {
+  declare_outputs<3>(d.latch_clock_data_pins);
+  declare_outputs<NUM_DIGITS>(d.digit_pins);
+}
+
 void setup() {
   // set pins to output so you can control the shift register
   Serial.begin(115200);
-  pinMode(latchPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
-  pinMode(dataPin, OUTPUT);
-  for (uint8_t d : digitPins) {
-    pinMode(d, OUTPUT);
-  }
-  DigitDisplay dd = {latchPin, clockPin, dataPin, digitPins};
+  DigitDisplay dd = {LATCH_PIN, CLOCK_PIN, DATA_PIN, DIGIT_PINS};
+  init_digit_display(dd);
 }
 
 // void loop() { display_digits(); }
@@ -152,16 +157,16 @@ void display_char(char chr, uint8_t digit_index, uint8_t dec_pnts) {
 }
 
 void display_char(uint8_t bin, uint8_t digit_index) {
-  for (uint8_t b : digitPins) {
+  for (uint8_t b : DIGIT_PINS) {
     digitalWrite(b, HIGH);
   }
-  digitalWrite(digitPins[digit_index], LOW);
+  digitalWrite(DIGIT_PINS[digit_index], LOW);
   // take the latchPin low so
   // the LEDs don't change while you're sending in bits:
-  digitalWrite(latchPin, LOW);
+  digitalWrite(LATCH_PIN, LOW);
   // shift out the bits:
-  shiftOut(dataPin, clockPin, MSBFIRST, bin);
+  shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, bin);
   // take the latch pin high so the LEDs will light up:
-  digitalWrite(latchPin, HIGH);
+  digitalWrite(LATCH_PIN, HIGH);
   // pause before next value:
 }
