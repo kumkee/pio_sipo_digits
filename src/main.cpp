@@ -1,4 +1,6 @@
 #include "header.h"
+#include <array>
+#include <cstdint>
 
 #define NUM_DIGITS 4
 
@@ -8,9 +10,16 @@ const uint8_t latchPin = 33;
 const uint8_t clockPin = 26;
 ////Pin connected to Data in (DS) of 74HC595
 const uint8_t dataPin = 14;
-const uint8_t digitPins[] = {10, 18, 19, 21};
+const std::array<uint8_t, NUM_DIGITS> digitPins = {10, 18, 19, 21};
 const unsigned delay_ms = 100;
 const unsigned multiplexed_delay_us = 1024;
+
+struct DigitDisplay {
+  uint8_t latch_pin;
+  uint8_t clock_pin;
+  uint8_t data_pin;
+  std::array<uint8_t, NUM_DIGITS> digit_pins;
+};
 
 uint8_t dec_pnt_positions(uint8_t i) {
   return (i < NUM_DIGITS) ? (1 << i) : 0;
@@ -35,6 +44,7 @@ void setup() {
   for (uint8_t d : digitPins) {
     pinMode(d, OUTPUT);
   }
+  DigitDisplay dd = {latchPin, clockPin, dataPin, digitPins};
 }
 
 // void loop() { display_digits(); }
