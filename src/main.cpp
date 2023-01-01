@@ -12,11 +12,13 @@ const uint8_t CLOCK_PIN = 26;
 const uint8_t DATA_PIN = 14;
 const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {10, 18, 19, 21};
 const unsigned delay_ms = 100;
-const unsigned multiplexed_delay_us = 1024;
+const unsigned MULTIPLEXED_DELAY_US = 1024;
 
 struct DigitDisplay {
+  uint8_t num_digits;
   std::array<uint8_t, 3> latch_clock_data_pins;
   std::array<uint8_t, NUM_DIGITS> digit_pins;
+  unsigned multiplexed_delay_us;
 };
 
 uint8_t dec_pnt_positions(uint8_t i) {
@@ -33,8 +35,7 @@ uint8_t num_to_str(char *str, int num);
 uint8_t num_to_str(char *str, float num, uint8_t num_decimals = NUM_DIGITS);
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
 
-template <std::size_t N>
-void declare_outputs(std::array<uint8_t, N> pins) {
+template <std::size_t N> void declare_outputs(std::array<uint8_t, N> pins) {
   for (uint8_t p : pins) {
     pinMode(p, OUTPUT);
   }
@@ -48,7 +49,10 @@ void init_digit_display(DigitDisplay d) {
 void setup() {
   // set pins to output so you can control the shift register
   Serial.begin(115200);
-  DigitDisplay dd = {LATCH_PIN, CLOCK_PIN, DATA_PIN, DIGIT_PINS};
+  DigitDisplay dd = {NUM_DIGITS,
+                     {LATCH_PIN, CLOCK_PIN, DATA_PIN},
+                     DIGIT_PINS,
+                     MULTIPLEXED_DELAY_US};
   init_digit_display(dd);
 }
 
@@ -119,7 +123,7 @@ void display_string(char *str, uint8_t dec_pnts) {
   }
   for (uint8_t i = 0; i < n; i++) {
     display_char(buf[i], i + NUM_DIGITS - n, dec_pnts);
-    delayMicroseconds(multiplexed_delay_us);
+    delayMicroseconds(MULTIPLEXED_DELAY_US);
   }
 }
 
@@ -127,7 +131,7 @@ void display_digits(void) {
   // For debugging
   for (uint8_t i = 0; i < NUM_DIGITS; i++) {
     display_char((char)('0' + i), i);
-    delayMicroseconds(multiplexed_delay_us);
+    delayMicroseconds(MULTIPLEXED_DELAY_US);
   }
 }
 
