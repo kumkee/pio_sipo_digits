@@ -13,7 +13,6 @@ const unsigned delay_ms = 100;
 const unsigned MULTIPLEXED_DELAY_US = 1024;
 
 struct DigitDisplay {
-  uint8_t num_digits;
   bool is_common_anode;
   std::array<uint8_t, 3> latch_clock_data_pins;
   std::array<uint8_t, NUM_DIGITS> digit_pins;
@@ -51,8 +50,7 @@ DigitDisplay dd;
 void setup() {
   // set pins to output so you can control the shift register
   Serial.begin(115200);
-  dd = {NUM_DIGITS,
-        false, // is_common_anode, false for common cathode display
+  dd = {false, // is_common_anode, false for common cathode display
         {LATCH_PIN, CLOCK_PIN, DATA_PIN},
         DIGIT_PINS,            // array<unit
         MULTIPLEXED_DELAY_US}; // duration for diplaying each digit in
@@ -119,21 +117,21 @@ uint8_t num_to_str(char *str, float num, uint8_t num_decimals) {
 
 void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts) {
   uint8_t n = strlen(str);
-  char buf[dd.num_digits + 1];
-  if (n > dd.num_digits) {
+  char buf[NUM_DIGITS + 1];
+  if (n > NUM_DIGITS) {
     strcpy(buf, "____");
   } else {
     strcpy(buf, str);
   }
   for (uint8_t i = 0; i < n; i++) {
-    display_char(dd, buf[i], i + dd.num_digits - n, dec_pnts);
+    display_char(dd, buf[i], i + NUM_DIGITS - n, dec_pnts);
     delayMicroseconds(dd.multiplexed_delay_us);
   }
 }
 
 void display_digits(DigitDisplay dd) {
   // For debugging
-  for (uint8_t i = 0; i < dd.num_digits; i++) {
+  for (uint8_t i = 0; i < NUM_DIGITS; i++) {
     display_char(dd, (char)('0' + i), i);
     delayMicroseconds(dd.multiplexed_delay_us);
   }
