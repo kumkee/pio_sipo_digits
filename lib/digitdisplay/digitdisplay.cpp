@@ -1,7 +1,4 @@
 #include "digitdisplay.h"
-#include <cstring>
-#include <Arduino.h>
-#include "charmap.h"
 
 uint8_t dec_pnt_positions(uint8_t i) {
   return (i < NUM_DIGITS) ? (1 << i) : 0;
