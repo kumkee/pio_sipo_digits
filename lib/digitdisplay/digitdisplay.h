@@ -3,8 +3,11 @@
 #define DIGITDISPLAY
 
 #define NUM_DIGITS 4
+#include "charmap.h"
+#include <Arduino.h>
 #include <array>
 #include <cstdint>
+#include <cstring>
 
 struct DigitDisplay {
   bool is_common_anode;
