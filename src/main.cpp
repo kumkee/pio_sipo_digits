@@ -1,6 +1,4 @@
 #include "header.h"
-#include <array>
-#include <cstdint>
 
 #define NUM_DIGITS 4
 
@@ -16,6 +14,7 @@ const unsigned MULTIPLEXED_DELAY_US = 1024;
 
 struct DigitDisplay {
   uint8_t num_digits;
+  bool is_common_anode;
   std::array<uint8_t, 3> latch_clock_data_pins;
   std::array<uint8_t, NUM_DIGITS> digit_pins;
   unsigned multiplexed_delay_us;
@@ -53,9 +52,11 @@ void setup() {
   // set pins to output so you can control the shift register
   Serial.begin(115200);
   dd = {NUM_DIGITS,
+        false, // is_common_anode, false for common cathode display
         {LATCH_PIN, CLOCK_PIN, DATA_PIN},
-        DIGIT_PINS,
-        MULTIPLEXED_DELAY_US};
+        DIGIT_PINS,            // array<unit
+        MULTIPLEXED_DELAY_US}; // duration for diplaying each digit in
+                               // microseconds
   init_digit_display(dd);
 }
 
@@ -166,17 +167,19 @@ void display_char(DigitDisplay dd, char chr, uint8_t digit_index,
 }
 
 void display_char(DigitDisplay dd, uint8_t bin, uint8_t digit_index) {
-  for (uint8_t b : dd.digit_pins) {
-    digitalWrite(b, HIGH);
+  // turning off all digits
+  for (uint8_t d : dd.digit_pins) {
+    digitalWrite(d, dd.is_common_anode ? LOW : HIGH);
   }
-  digitalWrite(dd.digit_pins[digit_index], LOW);
+  // turn on digit_index digit
+  digitalWrite(dd.digit_pins[digit_index], dd.is_common_anode ? HIGH : LOW);
+
   // take the latchPin low so
   // the LEDs don't change while you're sending in bits:
   digitalWrite(dd.latch_clock_data_pins[0], LOW);
   // shift out the bits:
   shiftOut(dd.latch_clock_data_pins[2], dd.latch_clock_data_pins[1], MSBFIRST,
-           bin);
+           dd.is_common_anode ? ~bin : bin);
   // take the latch pin high so the LEDs will light up:
   digitalWrite(dd.latch_clock_data_pins[0], HIGH);
-  // pause before next value:
 }

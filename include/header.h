@@ -7,5 +7,6 @@
 #include <Arduino.h>
 #include <cstdint>
 #include <cstring>
+#include <array>
 
 #endif
