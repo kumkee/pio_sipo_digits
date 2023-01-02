@@ -1,7 +1,5 @@
 #include "header.h"
 
-#define NUM_DIGITS 4
-
 // Pin connected to latch pin (ST_CP) of 74HC595
 const uint8_t LATCH_PIN = 33;
 // Pin connected to clock pin (SH_CP) of 74HC595
@@ -11,13 +9,6 @@ const uint8_t DATA_PIN = 14;
 const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {10, 18, 19, 21};
 const unsigned delay_ms = 100;
 const unsigned MULTIPLEXED_DELAY_US = 1024;
-
-struct DigitDisplay {
-  bool is_common_anode;
-  std::array<uint8_t, 3> latch_clock_data_pins;
-  std::array<uint8_t, NUM_DIGITS> digit_pins;
-  unsigned multiplexed_delay_us;
-};
 
 uint8_t dec_pnt_positions(uint8_t i) {
   return (i < NUM_DIGITS) ? (1 << i) : 0;
