@@ -5,4 +5,4 @@
 
 ## Circuit Video
 
-![20230103_152513](https://user-images.githubusercontent.com/391431/210292869-a922c61a-1a13-4253-8858-8efecf1e37eb.gif)
+![20230103_173620](https://user-images.githubusercontent.com/391431/210300858-05f693ec-d51a-4c6d-9fb3-8aaa2b0b72b0.gif)
