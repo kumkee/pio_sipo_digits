@@ -7,9 +7,15 @@ It is a multiplexed 4-digit 7-segment display controlled by an ESP32 Development
 ## Circuit Schematic Diagram
 <img width="983" alt="s2p" src="https://user-images.githubusercontent.com/391431/210318676-17233847-d29c-450c-a14d-52e4d1e5d0b7.png">
 
-## Circuit Gif
+## Circuit Real Objects
 
-![20230103_210339](https://user-images.githubusercontent.com/391431/210319485-e0d31552-e86d-4a8a-a56c-169ecad86b5d.gif)
+### Real Time
+
+![20230104_011805](https://user-images.githubusercontent.com/391431/210443056-53ebb146-4eeb-4af0-b772-c7b8b8a1d62b.gif)
+
+### Slow-mo
+
+![20230104_101405](https://user-images.githubusercontent.com/391431/210443074-670dcd72-a5eb-4e5f-bc30-590491913d77.gif)
 
 ## Project Structure
 ```
