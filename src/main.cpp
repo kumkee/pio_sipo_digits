@@ -1,12 +1,12 @@
 #include "header.h"
 
-// Pin connected to latch pin (ST_CP) of 74HC595
+// Pin connected to latch pin (ST_CP/RCLK) of 74HC595
 const uint8_t LATCH_PIN = 33;
-// Pin connected to clock pin (SH_CP) of 74HC595
+// Pin connected to clock pin (SH_CP/SRCLK) of 74HC595
 const uint8_t CLOCK_PIN = 26;
-////Pin connected to Data in (DS) of 74HC595
+////Pin connected to Data in (DS/SER) of 74HC595
 const uint8_t DATA_PIN = 14;
-const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {10, 18, 19, 21};
+const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {10, 13, 9, 12};
 const unsigned delay_ms = 100;
 const unsigned MULTIPLEXED_DELAY_US = 1024;
 
