@@ -31,7 +31,7 @@ It is a multiplexed 4-digit 7-segment display controlled by an ESP32 Development
 ├── platformio.ini              --> Main configurations: platform, board, framework, ...
 ├── README.md
 ├── src
-│   └── main.cpp
+│   └── main.cpp                --> The main programme
 └── test                        --> Unit test. Not implemented yet.
     └── README
 ```
