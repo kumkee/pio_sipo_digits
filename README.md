@@ -1,8 +1,8 @@
-# Platformio Example Project
-This is an example project ultilizing my [PlatformIO template](https://github.com/kumkee/pio_template).
+# [Platformio](https://platformio.org/) Example Project
+This is an example project written from scratch ultilizing my [PlatformIO template](https://github.com/kumkee/pio_template).
 
 ## Example Description
-It is a multiplexed 4-digit 7-segment display controlled by an ESP32 Development Board and an SIPO (serial-in, parallel-out) shift register. Connections are illustrated in the circuit diagram below. 
+It is a multiplexed 4-digit 7-segment display controlled by an ESP32 Development Board and an SIPO (serial-in, parallel-out) shift register. Connections are illustrated in the circuit diagram below. The project was developed using the Arduino wiring-base [framework](https://docs.platformio.org/en/stable/frameworks/).
 
 ## Circuit Schematic Diagram
 <img width="983" alt="s2p" src="https://user-images.githubusercontent.com/391431/210318676-17233847-d29c-450c-a14d-52e4d1e5d0b7.png">
@@ -25,16 +25,16 @@ It is a multiplexed 4-digit 7-segment display controlled by an ESP32 Development
 │   ├── header.h
 │   └── README
 ├── lib
-│   ├── charmap                 --> A library of a char-to-binary map
+│   ├── charmap                 --> A char-to-binary map
 │   │   ├── charmap.cpp
 │   │   └── charmap.h
-│   ├── digitdisplay            --> A library of multiplexed digit display
+│   ├── digitdisplay            --> The core logic of the multiplexed digit display via SIPO
 │   │   ├── digitdisplay.cpp
-│   │   └── digitdisplay.h          --> NUM_DIGITS: to set number of digits
+│   │   └── digitdisplay.h          --> NUM_DIGITS: number of digits in the display
 │   └── README
 ├── LICENSE
 ├── Makefile
-├── platformio.ini              --> Project configurations: platform, board, framework, ...
+├── platformio.ini              --> Project parameters: platform, board, framework, and more
 ├── README.md                   --> This file
 ├── src
 │   └── main.cpp                --> The main programme
