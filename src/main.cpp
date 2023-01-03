@@ -6,7 +6,7 @@ const uint8_t LATCH_PIN = 33;
 const uint8_t CLOCK_PIN = 26;
 ////Pin connected to Data in (DS/SER) of 74HC595
 const uint8_t DATA_PIN = 14;
-const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {10, 13, 9, 12};
+const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {23, 13, 9, 12};
 const unsigned delay_ms = 100;
 const unsigned MULTIPLEXED_DELAY_US = 1024;
 
