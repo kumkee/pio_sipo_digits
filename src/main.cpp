@@ -1,10 +1,10 @@
 #include "header.h"
 
-// Pin connected to latch pin (RCLK/ST_CP) of 74HC595
+// Pin connected to latch pin (RCLK) of 74HC595
 const uint8_t LATCH_PIN = 33;
-// Pin connected to clock pin (SRCLK/SH_CP) of 74HC595
+// Pin connected to clock pin (SRCLK) of 74HC595
 const uint8_t CLOCK_PIN = 26;
-// Pin connected to Data in (SER/DS) of 74HC595
+// Pin connected to Data in (SER) of 74HC595
 const uint8_t DATA_PIN = 14;
 const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {10, 18, 19, 21};
 const unsigned delay_ms = 100;
@@ -17,7 +17,7 @@ void setup() {
   Serial.begin(115200);
   dd = {false, // is_common_anode, false for common cathode display
         {LATCH_PIN, CLOCK_PIN, DATA_PIN},
-        DIGIT_PINS,            // array<unit
+        DIGIT_PINS,            // array of size NUM_DIGITS
         MULTIPLEXED_DELAY_US}; // duration for diplaying each digit in
                                // microseconds
   init_digit_display(dd);
