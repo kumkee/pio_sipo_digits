@@ -6,8 +6,11 @@ const uint8_t LATCH_PIN = 33;
 const uint8_t CLOCK_PIN = 26;
 // Pin connected to Data in (SER) of the shift register
 const uint8_t DATA_PIN = 14;
+// Common cathode pins for individual digits
 const std::array<uint8_t, NUM_DIGITS> DIGIT_PINS = {23, 18, 19, 21};
+// Single digit display duration in μs
 const unsigned MULTIPLEXED_DELAY_US = 1024;
+// true for a common anode display; false for common cathode
 const bool IS_COMMON_ANODE = false;
 
 const unsigned delay_ms = 100;
