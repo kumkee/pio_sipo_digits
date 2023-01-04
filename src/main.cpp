@@ -12,6 +12,8 @@ const bool IS_COMMON_ANODE = false;
 
 const unsigned delay_ms = 100;
 
+const unsigned MAXI = powf(10, NUM_DIGITS);
+
 DigitDisplay dd;
 
 void setup() {
@@ -27,7 +29,7 @@ void setup() {
 void loop() {
   char str[2 * NUM_DIGITS + 1];
   bool flag_float = false;
-  for (int i = 0; i < 10000; i++) {
+  for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     uint8_t dp;
     if (i % 5 == 0) {
