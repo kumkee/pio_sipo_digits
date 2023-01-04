@@ -26,19 +26,15 @@ void setup() {
 }
 
 void loop() {
-  char str[2 * NUM_DIGITS + 1];
   bool flag_float = false;
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
-    uint8_t dp;
     if (i % 5 == 0) {
       flag_float = !flag_float;
     }
-    dp =
-        flag_float ? num_to_str(str, (float)(i / 10.0), 1) : num_to_str(str, i);
-    Serial.printf("\r                  \r%s\t%d", str, dp);
+    Serial.printf("\r                  \r%d", i);
     while (millis() < ms + delay_ms) {
-      display_string(dd, str, dp);
+      flag_float ? display_number(dd, (float)(i / 10.0), 1) : display_number(dd, i);
     }
   }
 }
