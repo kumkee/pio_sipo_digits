@@ -1,5 +1,8 @@
 #include "digitdisplay.h"
 
+int max_int, min_int;
+float max_f, min_f;
+
 uint8_t dec_pnt_positions(uint8_t i) {
   return (i < NUM_DIGITS) ? (1 << i) : 0;
 };
@@ -20,6 +23,10 @@ template <std::size_t N> void declare_outputs(std::array<uint8_t, N> pins) {
 void init_digit_display(DigitDisplay d) {
   declare_outputs<3>(d.latch_clock_data_pins);
   declare_outputs<NUM_DIGITS>(d.digit_pins);
+  max_int = (int)powf(10, NUM_DIGITS) - 1;
+  min_int = -(int)powf(10, NUM_DIGITS - 1) + 1;
+  max_f = pow(10., NUM_DIGITS) - 0.5;
+  min_f = -pow(10., NUM_DIGITS - 1) + 0.5;
 }
 
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts) {
@@ -39,7 +46,7 @@ uint8_t separate_str_dots(char *str, uint8_t dec_pnts) {
 }
 
 uint8_t num_to_str(char *str, int num) {
-  if (num < -999 || num > 9999) {
+  if (num < min_int || num > max_int) {
     strcpy(str, "....");
   } else {
     sprintf(str, "%d", num);
@@ -48,7 +55,7 @@ uint8_t num_to_str(char *str, int num) {
 }
 
 uint8_t num_to_str(char *str, float num, uint8_t num_decimals) {
-  if (num < -999.5 || num > 9999.5) {
+  if (num < min_f || num > max_f) {
     strcpy(str, "....");
     return 0;
   } else {

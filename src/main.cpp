@@ -18,10 +18,10 @@ DigitDisplay dd;
 
 void setup() {
   Serial.begin(115200);
-  dd = {IS_COMMON_ANODE,        // false for common cathode display
+  dd = {IS_COMMON_ANODE, // false for common cathode display
         {LATCH_PIN, CLOCK_PIN, DATA_PIN},
-        DIGIT_PINS,             // array of size NUM_DIGITS
-        MULTIPLEXED_DELAY_US};  // duration for diplaying each digit in μs
+        DIGIT_PINS,            // array of size NUM_DIGITS
+        MULTIPLEXED_DELAY_US}; // duration for diplaying each digit in μs
   init_digit_display(dd);
 }
 
