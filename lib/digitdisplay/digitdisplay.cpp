@@ -2,7 +2,12 @@
 
 int max_int, min_int;
 float max_f, min_f;
-char str[2 * NUM_DIGITS + 1];
+
+char str_cache[2 * NUM_DIGITS + 1];
+uint8_t decpnt_cache = 0;
+int int_cache = 0;
+float float_cache = 0.;
+uint8_t num_decimals_cache = 0;
 
 uint8_t dec_pnt_positions(uint8_t i) {
   return (i < NUM_DIGITS) ? (1 << i) : 0;
@@ -83,13 +88,24 @@ void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts) {
 }
 
 void display_number(DigitDisplay dd, int num) {
-  uint8_t dp = num_to_str(str, num);
-  display_string(dd, str, dp);
+  if (num == int_cache) {
+    display_string(dd, str_cache, decpnt_cache);
+  } else {
+    int_cache = num;
+    decpnt_cache = num_to_str(str_cache, num);
+    display_string(dd, str_cache, decpnt_cache);
+  }
 }
 
 void display_number(DigitDisplay dd, float num, uint8_t num_decimals) {
-  uint8_t dp = num_to_str(str, num, num_decimals);
-  display_string(dd, str, dp);
+  if (num == float_cache && num_decimals == num_decimals_cache) {
+    display_string(dd, str_cache, decpnt_cache);
+  } else {
+    float_cache = num;
+    num_decimals_cache = num_decimals;
+    decpnt_cache = num_to_str(str_cache, num, num_decimals);
+    display_string(dd, str_cache, decpnt_cache);
+  }
 }
 
 void display_digits(DigitDisplay dd) {
