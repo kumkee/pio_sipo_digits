@@ -24,6 +24,6 @@ void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts = 0);
 void display_number(DigitDisplay dd, int num);
 void display_number(DigitDisplay dd, float num,
                     uint8_t num_decimals = NUM_DIGITS);
-// TODO: implementation of the two above with memoization of num_to_str
+// DONE: implementation of the two above with memoization of num_to_str
 
 #endif
