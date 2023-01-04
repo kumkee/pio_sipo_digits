@@ -25,7 +25,6 @@ void setup() {
   init_digit_display(dd);
 }
 
-// void loop() { display_digits(); }
 void loop() {
   char str[2 * NUM_DIGITS + 1];
   bool flag_float = false;
