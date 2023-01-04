@@ -2,6 +2,7 @@
 
 int max_int, min_int;
 float max_f, min_f;
+char str[2 * NUM_DIGITS + 1];
 
 uint8_t dec_pnt_positions(uint8_t i) {
   return (i < NUM_DIGITS) ? (1 << i) : 0;
@@ -79,6 +80,16 @@ void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts) {
     display_char(dd, buf[i], i + NUM_DIGITS - n, dec_pnts);
     delayMicroseconds(dd.multiplexed_delay_us);
   }
+}
+
+void display_number(DigitDisplay dd, int num) {
+  uint8_t dp = num_to_str(str, num);
+  display_string(dd, str, dp);
+}
+
+void display_number(DigitDisplay dd, float num, uint8_t num_decimals) {
+  uint8_t dp = num_to_str(str, num, num_decimals);
+  display_string(dd, str, dp);
 }
 
 void display_digits(DigitDisplay dd) {
