@@ -1,6 +1,6 @@
 
-#ifndef DIGITDISPLAY
-#define DIGITDISPLAY
+#ifndef DIGITDISPLAY_H
+#define DIGITDISPLAY_H
 
 #define NUM_DIGITS 4
 #include "charmap.h"
@@ -23,6 +23,6 @@ void display_digits(DigitDisplay dd);
 void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts = 0);
 void display_number(DigitDisplay dd, int num);
 void display_number(DigitDisplay dd, float num);
-// TODO: implementation of the two above with memorization of num_to_str
+// TODO: implementation of the two above with memoization of num_to_str
 
 #endif
