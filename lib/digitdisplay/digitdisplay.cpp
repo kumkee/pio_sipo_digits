@@ -3,7 +3,7 @@
 int max_int, min_int;
 float max_f, min_f;
 
-// cached variables for display_number functions
+// cached variables for memoization of display_number functions
 char str_int_cache[2 * NUM_DIGITS + 1];
 char str_float_cache[2 * NUM_DIGITS + 1];
 uint8_t decpnt_cache = 0;
