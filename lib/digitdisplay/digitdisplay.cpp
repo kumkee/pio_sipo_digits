@@ -3,6 +3,7 @@
 int max_int, min_int;
 float max_f, min_f;
 
+// cached variables for display_number functions
 char str_int_cache[2 * NUM_DIGITS + 1];
 char str_float_cache[2 * NUM_DIGITS + 1];
 uint8_t decpnt_cache = 0;
@@ -46,7 +47,6 @@ uint8_t separate_str_dots(char *str, uint8_t dec_pnts) {
     strcpy(pure_str + dot_ind, buf + 1);
     strcpy(str, pure_str);
     return separate_str_dots(str, dec_pnts | dec_pnt_positions(dot_ind - 1));
-    // return separate_str_dots(str, dec_pnts | dec_pnt_pos[dot_ind - 1]);
   } else {
     return dec_pnts << (NUM_DIGITS - strlen(str));
   }
