@@ -32,8 +32,8 @@ void init_digit_display(DigitDisplay d) {
   declare_outputs<NUM_DIGITS>(d.digit_pins);
   max_int = (int)powf(10, NUM_DIGITS) - 1;
   min_int = -(int)powf(10, NUM_DIGITS - 1) + 1;
-  max_f = pow(10., NUM_DIGITS) - 0.5;
-  min_f = -pow(10., NUM_DIGITS - 1) + 0.5;
+  max_f = (float)max_int + 0.5;
+  min_f = (float)min_int - 0.5;
 }
 
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts) {
