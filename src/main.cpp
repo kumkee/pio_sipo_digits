@@ -1,6 +1,7 @@
 #include "header.h"
-#include <functional>
 using namespace std;
+
+using DispFunc = function<void(uint8_t)>;
 
 // Pin connected to latch pin (RCLK) of the shift register
 const uint8_t LATCH_PIN = 33;
@@ -32,16 +33,15 @@ void setup() {
 
 void loop() {
   bool flag_float = false;
-  using DispF = function<void(uint8_t)>;
+  DispFunc fn_f = [&](uint8_t n) { display_number(dd, (float)(n / 10.0), 1); };
+  DispFunc fn_i = [&](uint8_t n) { display_number(dd, n); };
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
       flag_float = !flag_float;
     }
     Serial.printf("\r         \r%d", i);
-    DispF fn_f = [&](uint8_t n) { display_number(dd, (float)(n / 10.0), 1); };
-    DispF fn_i = [&](uint8_t n) { display_number(dd, n); };
-    DispF fn = flag_float ? fn_f : fn_i;
+    DispFunc fn = flag_float ? fn_f : fn_i;
     while (millis() < ms + delay_ms) {
       fn(i);
     }
