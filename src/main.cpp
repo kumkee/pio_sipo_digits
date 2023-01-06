@@ -30,11 +30,12 @@ void setup() {
   init_digit_display(dd);
 }
 
+function<void(int)> display_funcs[2] = {
+    [](int n) { display_number(dd, n); },
+    [](int n) { display_number(dd, (float)(n / 10.0), 1); }};
+
 void loop() {
   bool is_float = false;
-  function<void(int)> display_funcs[2] = {
-      [&](int n) { display_number(dd, n); },
-      [&](int n) { display_number(dd, (float)(n / 10.0), 1); }};
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
