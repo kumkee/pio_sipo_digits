@@ -1,5 +1,5 @@
 #include "header.h"
-#include <functional>
+
 using namespace std;
 
 // Pin connected to latch pin (RCLK) of the shift register
