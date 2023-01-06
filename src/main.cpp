@@ -30,7 +30,7 @@ void setup() {
 }
 
 void loop() {
-  bool is_float = false;
+  bool is_float = true;
   function<void(uint8_t)> fn[] = {
       [&](uint8_t n) { display_number(dd, (float)(n / 10.0), 1); },
       [&](uint8_t n) { display_number(dd, n); }};
