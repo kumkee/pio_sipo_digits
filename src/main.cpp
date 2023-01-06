@@ -43,7 +43,7 @@ void loop() {
     }
     Serial.printf("\r         \r%d", i); // debugging output
     while (millis() < ms + delay_ms) {
-      (display_funcs[is_float])(i);
+      display_funcs[is_float](i);
     }
   }
 }
