@@ -21,7 +21,7 @@ const unsigned MAXI = powf(10, NUM_DIGITS);
 DigitDisplay dd;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200); // for debugging output
   dd = {IS_COMMON_ANODE, // false for common cathode display
         {LATCH_PIN, CLOCK_PIN, DATA_PIN},
         DIGIT_PINS,            // array of size NUM_DIGITS
@@ -40,7 +40,7 @@ void loop() {
     if (i % 5 == 0) {
       is_float = !is_float;
     }
-    Serial.printf("\r         \r%d", i);
+    Serial.printf("\r         \r%d", i); // debugging output
     while (millis() < ms + delay_ms) {
       (*fn_arr[is_float])(i);
     }
