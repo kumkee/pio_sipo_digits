@@ -28,20 +28,20 @@ void setup() {
   init_digit_display(dd);
 }
 
-void fn_f(uint8_t n) { display_number(dd, (float)(n / 10.0), 1); }
-void fn_i(uint8_t n) { display_number(dd, n); }
+void fn_f(const int n) { display_number(dd, (float)(n / 10.0), 1); }
+void fn_i(const int n) { display_number(dd, n); }
 
 void loop() {
-  bool flag_float = false;
-  void (*fn[2])(uint8_t) = {fn_f, fn_i};
+  bool is_float = false;
+  void (*fn[2])(const int) = {fn_f, fn_i};
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
-      flag_float = !flag_float;
+      is_float = !is_float;
     }
-    // Serial.printf("\r         \r%d", i);
+    Serial.printf("\r         \r%d", i);
     while (millis() < ms + delay_ms) {
-      (*fn[flag_float])(i);
+      (*fn[is_float])(i);
     }
   }
 }

@@ -89,7 +89,6 @@ void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts) {
 }
 
 void display_number(DigitDisplay dd, int num) {
-  Serial.printf("\r                      \r%d", num);
   if (num == int_cache) {
     display_string(dd, str_int_cache);
   } else {
