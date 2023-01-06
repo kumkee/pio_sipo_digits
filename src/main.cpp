@@ -39,7 +39,7 @@ void loop() {
     if (i % 5 == 0) {
       flag_float = !flag_float;
     }
-    Serial.printf("\r         \r%d", i);
+    // Serial.printf("\r         \r%d", i);
     while (millis() < ms + delay_ms) {
       (*fn[flag_float])(i);
     }
