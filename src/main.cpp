@@ -28,8 +28,12 @@ void setup() {
   init_digit_display(dd);
 }
 
+void fn_f(uint8_t n) { display_number(dd, (float)(n / 10.0), 1); }
+void fn_i(uint8_t n) { display_number(dd, n); }
+
 void loop() {
   bool flag_float = false;
+  void (*fn[2])(uint8_t) = {fn_f, fn_i};
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
@@ -37,8 +41,7 @@ void loop() {
     }
     Serial.printf("\r         \r%d", i);
     while (millis() < ms + delay_ms) {
-      flag_float ? display_number(dd, (float)(i / 10.0), 1)
-                 : display_number(dd, i);
+      (*fn[flag_float])(i);
     }
   }
 }
