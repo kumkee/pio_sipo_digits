@@ -30,10 +30,7 @@ void setup() {
 }
 
 void loop() {
-  bool is_float = true;
-  function<void(uint8_t)> fn[] = {
-      [&](uint8_t n) { display_number(dd, (float)(n / 10.0), 1); },
-      [&](uint8_t n) { display_number(dd, n); }};
+  bool is_float = false;
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
@@ -41,7 +38,8 @@ void loop() {
     }
     Serial.printf("\r         \r%d", i);
     while (millis() < ms + delay_ms) {
-      fn[is_float](i);
+      is_float ? display_number(dd, (float)(i / 10.0), 1)
+               : display_number(dd, i);
     }
   }
 }

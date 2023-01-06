@@ -8,7 +8,6 @@
 #include <cstdint>
 #include <cstring>
 #include <esp32-hal-gpio.h>
-#include <functional>
 
 #include "charmap.h"
 #include "digitdisplay.h"
