@@ -31,10 +31,10 @@ void setup() {
 
 void display_fn_f(const int &n) { display_number(dd, (float)(n / 10.0), 1); }
 void display_fn_i(const int &n) { display_number(dd, n); }
+void (*display_fn_arr[2])(const int &) = {display_fn_i, display_fn_f};
 
 void loop() {
   bool is_float = false;
-  void (*display_fn_arr[2])(const int &) = {display_fn_i, display_fn_f};
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
