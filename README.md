@@ -2,7 +2,7 @@
 This is an example project written from scratch ultilizing my [PlatformIO template](https://github.com/kumkee/pio_template).
 
 ## Project Description
-It is a multiplexed 4-digit 7-segment display controlled by an ESP32 Development Board and an SIPO (serial-in, parallel-out) shift register. Connections are illustrated in the circuit diagram below. The project was developed using the Arduino wiring-base [framework](https://docs.platformio.org/en/stable/frameworks/).
+It is a multiplexed 4-digit 7-segment display (e.g. SH5461AS) controlled by an ESP32 Development Board (e.g. ESP32-DevKitM-1) and an SIPO (serial-in, parallel-out) shift register (e.g. 74HC595). Connections are illustrated in the circuit diagram below. The project was developed using the Arduino wiring-base [framework](https://docs.platformio.org/en/stable/frameworks/).
 
 ## Circuit Schematic Diagram
 
