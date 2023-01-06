@@ -1,4 +1,5 @@
 #include "header.h"
+#include <functional>
 using namespace std;
 
 // Pin connected to latch pin (RCLK) of the shift register
@@ -21,7 +22,7 @@ const unsigned MAXI = powf(10, NUM_DIGITS);
 DigitDisplay dd;
 
 void setup() {
-  Serial.begin(115200); // for debugging output
+  Serial.begin(115200);  // for debugging output
   dd = {IS_COMMON_ANODE, // false for common cathode display
         {LATCH_PIN, CLOCK_PIN, DATA_PIN},
         DIGIT_PINS,            // array of size NUM_DIGITS
@@ -29,12 +30,11 @@ void setup() {
   init_digit_display(dd);
 }
 
-void display_fn_f(const int &n) { display_number(dd, (float)(n / 10.0), 1); }
-void display_fn_i(const int &n) { display_number(dd, n); }
-void (*display_fn_arr[2])(const int &) = {display_fn_i, display_fn_f};
-
 void loop() {
   bool is_float = false;
+  function<void(int)> display_funcs[2] = {
+      [&](int n) { display_number(dd, n); },
+      [&](int n) { display_number(dd, (float)(n / 10.0), 1); }};
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
@@ -42,7 +42,7 @@ void loop() {
     }
     Serial.printf("\r         \r%d", i); // debugging output
     while (millis() < ms + delay_ms) {
-      (*display_fn_arr[is_float])(i);
+      (display_funcs[is_float])(i);
     }
   }
 }
