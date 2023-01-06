@@ -29,12 +29,12 @@ void setup() {
   init_digit_display(dd);
 }
 
-void fn_f(const int &n) { display_number(dd, (float)(n / 10.0), 1); }
-void fn_i(const int &n) { display_number(dd, n); }
+void display_fn_f(const int &n) { display_number(dd, (float)(n / 10.0), 1); }
+void display_fn_i(const int &n) { display_number(dd, n); }
 
 void loop() {
   bool is_float = false;
-  void (*fn_arr[2])(const int &) = {fn_i, fn_f};
+  void (*display_fn_arr[2])(const int &) = {display_fn_i, display_fn_f};
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
@@ -42,7 +42,7 @@ void loop() {
     }
     Serial.printf("\r         \r%d", i); // debugging output
     while (millis() < ms + delay_ms) {
-      (*fn_arr[is_float])(i);
+      (*display_fn_arr[is_float])(i);
     }
   }
 }
