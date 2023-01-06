@@ -29,16 +29,16 @@ void setup() {
 }
 
 void loop() {
-  bool flag_float = false;
+  bool is_float = false;
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
-      flag_float = !flag_float;
+      is_float = !is_float;
     }
     Serial.printf("\r         \r%d", i);
     while (millis() < ms + delay_ms) {
-      flag_float ? display_number(dd, (float)(i / 10.0), 1)
-                 : display_number(dd, i);
+      is_float ? display_number(dd, (float)(i / 10.0), 1)
+               : display_number(dd, i);
     }
   }
 }
