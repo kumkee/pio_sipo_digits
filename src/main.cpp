@@ -33,7 +33,7 @@ void fn_i(const int n) { display_number(dd, n); }
 
 void loop() {
   bool is_float = false;
-  void (*fn[2])(const int) = {fn_f, fn_i};
+  void (*fn[2])(const int) = {fn_i, fn_f};
   for (int i = 0; i < MAXI; i++) {
     unsigned long ms = millis();
     if (i % 5 == 0) {
