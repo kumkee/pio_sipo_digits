@@ -10,7 +10,7 @@ const uint8_t CLOCK_PIN = 26;
 const uint8_t DATA_PIN = 14;
 // Common cathode pins for individual digits
 const array<uint8_t, NUM_DIGITS> DIGIT_PINS = {23, 18, 19, 21};
-// Single digit display duration in μs
+// Single-digit multiplexed period in μs
 const unsigned MULTIPLEXED_DELAY_US = 1024;
 // true for a common anode display; false for common cathode
 const bool IS_COMMON_ANODE = false;
@@ -26,7 +26,7 @@ void setup() {
   dd = {IS_COMMON_ANODE, // false for common cathode display
         {LATCH_PIN, CLOCK_PIN, DATA_PIN},
         DIGIT_PINS,            // array of size NUM_DIGITS
-        MULTIPLEXED_DELAY_US}; // duration for diplaying each digit in μs
+        MULTIPLEXED_DELAY_US}; // duration in μs
   init_digit_display(dd);
 }
 
