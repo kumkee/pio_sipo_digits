@@ -8,6 +8,8 @@ It is a multiplexed 4-digit 7-segment display (e.g. SH5461AS) controlled by an E
 
 <img width="976" alt="s2p" src="https://user-images.githubusercontent.com/391431/210492915-b285234c-f808-4e5e-b0d7-ff64e5e3fe91.png">
 
+Drawn with [KiCad](https://www.kicad.org/).
+
 ## Circuit Real Objects
 
 ### Real Time
