@@ -6,7 +6,9 @@ float max_f, min_f;
 // cached variables for memoization of display_number functions
 char str_int_cache[2 * NUM_DIGITS + 1];
 char str_float_cache[2 * NUM_DIGITS + 1];
-uint8_t decpnt_cache = 0;
+uint8_t dec_pnts_cache =
+    0; // a binary number representing the decimal points (the dots)-
+       // a position with a 1 has a decimal point.
 int int_cache = 0;
 float float_cache = 0.;
 uint8_t num_decimals_cache = 0;
@@ -38,6 +40,7 @@ void init_digit_display(DigitDisplay d) {
 }
 
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts) {
+  // a recursive function to separate digits and decimal points (dots)
   // pure_str is without dots
   char *buf = strchr(str, (int)'.');
   if (buf) {
@@ -90,7 +93,7 @@ void display_string(DigitDisplay dd, char *str, uint8_t dec_pnts) {
 
 void display_number(DigitDisplay dd, int num) {
   if (num == int_cache) {
-    display_string(dd, str_int_cache);
+    display_string(dd, str_int_cache); // displaying the cached string
   } else {
     int_cache = num;
     num_to_str(str_int_cache, num);
@@ -100,12 +103,13 @@ void display_number(DigitDisplay dd, int num) {
 
 void display_number(DigitDisplay dd, float num, uint8_t num_decimals) {
   if (num == float_cache && num_decimals == num_decimals_cache) {
-    display_string(dd, str_float_cache, decpnt_cache);
+    display_string(dd, str_float_cache,
+                   dec_pnts_cache); // displaying the cached string
   } else {
     float_cache = num;
     num_decimals_cache = num_decimals;
-    decpnt_cache = num_to_str(str_float_cache, num, num_decimals);
-    display_string(dd, str_float_cache, decpnt_cache);
+    dec_pnts_cache = num_to_str(str_float_cache, num, num_decimals);
+    display_string(dd, str_float_cache, dec_pnts_cache);
   }
 }
 

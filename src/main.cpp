@@ -2,12 +2,9 @@
 
 using namespace std;
 
-// Pin connected to latch pin (RCLK) of the shift register
-const uint8_t LATCH_PIN = 33;
-// Pin connected to clock pin (SRCLK) of the shift register
-const uint8_t CLOCK_PIN = 26;
-// Pin connected to Data in (SER) of the shift register
-const uint8_t DATA_PIN = 14;
+const uint8_t LATCH_PIN = 33; // to RCLK of the shift register (S/R)
+const uint8_t CLOCK_PIN = 26; // to SRCLK of the S/R
+const uint8_t DATA_PIN = 14;  // to SER of the S/R
 // Common cathode pins for individual digits
 const array<uint8_t, NUM_DIGITS> DIGIT_PINS = {23, 18, 19, 21};
 // Single-digit multiplexed period in μs
