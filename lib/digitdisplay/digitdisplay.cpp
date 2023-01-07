@@ -24,15 +24,16 @@ void display_char(DigitDisplay dd, char chr, uint8_t digit_index = 0,
 void run_thr_digits(uint8_t = 0);
 uint8_t separate_str_dots(char *str, uint8_t dec_pnts = 0);
 
-template <std::size_t N> void declare_outputs(std::array<uint8_t, N> pins) {
+template <std::size_t N>
+void declare_io(std::array<uint8_t, N> pins, uint8_t io = OUTPUT) {
   for (uint8_t p : pins) {
-    pinMode(p, OUTPUT);
+    pinMode(p, io);
   }
 }
 
 void init_digit_display(DigitDisplay d) {
-  declare_outputs<3>(d.latch_clock_data_pins);
-  declare_outputs<NUM_DIGITS>(d.digit_pins);
+  declare_io<3>(d.latch_clock_data_pins);
+  declare_io<NUM_DIGITS>(d.digit_pins);
   max_int = (int)powf(10, NUM_DIGITS) - 1;
   min_int = -(int)powf(10, NUM_DIGITS - 1) + 1;
   max_f = (float)max_int + 0.5;
